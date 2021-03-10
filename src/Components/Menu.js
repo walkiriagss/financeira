@@ -21,6 +21,8 @@ import EqualizerIcon from '@material-ui/icons/Equalizer';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 //import component
 import Table from './Table'
+import Paper from './Paper'
+import Cadastro from './Cadastro'
 
 const drawerWidth = 240;
 
@@ -147,7 +149,7 @@ export default function MiniDrawer() {
         <List>
           {['Adicionar', 'Dashboard', 'Transações'].map((text, index) => (
             <ListItem button key={text}>
-              <ListItemIcon>{index === 1 ? <AddCircleIcon /> : index === 2 ? <EqualizerIcon /> : <MonetizationOnIcon/>}</ListItemIcon>
+              <ListItemIcon>{index === 1 ? <Cadastro /> : index === 2 ? <EqualizerIcon /> : <MonetizationOnIcon/>}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
@@ -156,8 +158,9 @@ export default function MiniDrawer() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Typography paragraph>
-          <Table/>
+            <Table/>
         </Typography>
+            <Paper/>
         <Typography paragraph>
           
         </Typography>
