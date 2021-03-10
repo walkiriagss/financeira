@@ -7,14 +7,20 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { PermDeviceInformationTwoTone } from '@material-ui/icons';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "green",
     color: theme.palette.common.white,
   },
   body: {
     fontSize: 14,
+  },
+  flexContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    boxSizing: 'border-box',
   },
 }))(TableCell);
 
@@ -36,13 +42,16 @@ const rows = [
   createData('Receita', '30/05/2020', 'Salário', 1.000),
   createData('Despesa', '30/05/2020', 'Educação', 800),
   createData('Despesa', '30/05/2020', 'Transporte', 150),
+  createData('Despesa', '30/05/2020', 'Transporte', 150),
+
 ];
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 700,
+    width: '100%',
   },
 });
+
 
 export default function CustomizedTables() {
   const classes = useStyles();
@@ -53,20 +62,18 @@ export default function CustomizedTables() {
         <TableHead>
           <TableRow>
             <StyledTableCell>Tipo</StyledTableCell>
-            <StyledTableCell align="right">Data</StyledTableCell>
-            <StyledTableCell align="right">Categoria</StyledTableCell>
-            <StyledTableCell align="right">Valor</StyledTableCell>
+            <StyledTableCell>Data</StyledTableCell>
+            <StyledTableCell>Categoria</StyledTableCell>
+            <StyledTableCell>Valor</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
             <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                {row.tipo}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.data}</StyledTableCell>
-              <StyledTableCell align="right">{row.categoria}</StyledTableCell>
-              <StyledTableCell align="right">{row.valor}</StyledTableCell>
+              <StyledTableCell>{row.tipo}</StyledTableCell>
+              <StyledTableCell>{row.data}</StyledTableCell>
+              <StyledTableCell>{row.categoria}</StyledTableCell>
+              <StyledTableCell>{row.valor}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 //icons material ui
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -20,15 +21,17 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 //import component
-import Table from './Table'
+import Inicial from './Inicial'
 import Paper from './Paper'
 import Cadastro from './Cadastro'
+import Dashboard from './Dashboard'
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    justifyContent: 'center'
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -100,7 +103,35 @@ export default function MiniDrawer() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const [clicked, setClicked] = React.useState(true); 
 
+  const [clickedDash, setClickedDash] = React.useState(false); 
+
+  const handleClick = () => {
+      setClicked(true);
+      setClickedDash(false);
+      console.log("entra clicked:", clicked, clickedDash)
+  }
+
+  const handleClickDash = () => {
+    setClickedDash(true);
+    setClicked(false);
+    console.log("entra clicked:", clicked, clickedDash)
+  }
+
+  const itemList = [
+    {
+      text:'Dashboard',
+      icon:<EqualizerIcon />,
+      onClick: () => handleClick()
+    },
+    {
+      text:'Transações',
+      icon:<MonetizationOnIcon/>,
+      onClick: () => handleClickDash()
+    }
+  ]
+console.log("clicked:", clicked, clickedDash)
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -147,23 +178,22 @@ export default function MiniDrawer() {
         </div>
         <Divider />
         <List>
-          {['Adicionar', 'Dashboard', 'Transações'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index === 1 ? <Cadastro /> : index === 2 ? <EqualizerIcon /> : <MonetizationOnIcon/>}</ListItemIcon>
+          {itemList.map((item, index) => {
+            const { text, icon, onClick } = item;
+            return(
+            <ListItem button key={text} onCLick={onClick}>
+              {icon && <ListItemIcon>{icon}</ListItemIcon>}
               <ListItemText primary={text} />
             </ListItem>
-          ))}
+            );
+          })}
         </List>   
       </Drawer>
       <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Typography paragraph>
-            <Table/>
-        </Typography>
-            <Paper/>
-        <Typography paragraph>
-          
-        </Typography>
+        <div className={classes.toolbar}/>
+          <Grid container spacing={3} >
+           {clicked ? <Inicial/> : <Dashboard/>}
+        </Grid>
       </main>
     </div>
   );
