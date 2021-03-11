@@ -1,4 +1,5 @@
 import React from 'react';
+import AnchorLink from 'react-anchor-link-smooth-scroll'
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -21,10 +22,10 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 //import component
-import Inicial from './Inicial'
 import Paper from './Paper'
 import Cadastro from './Cadastro'
 import Dashboard from './Dashboard'
+import Tabela from './Table'
 
 const drawerWidth = 240;
 
@@ -121,14 +122,14 @@ export default function MiniDrawer() {
 
   const itemList = [
     {
-      text:'Dashboard',
-      icon:<EqualizerIcon />,
-      onClick: () => handleClick()
-    },
-    {
       text:'Transações',
       icon:<MonetizationOnIcon/>,
       onClick: () => handleClickDash()
+    },
+    {
+      text:'Dashboard',
+      icon:<EqualizerIcon />,
+      onClick: () => handleClick()
     }
   ]
 console.log("clicked:", clicked, clickedDash)
@@ -181,19 +182,35 @@ console.log("clicked:", clicked, clickedDash)
           {itemList.map((item, index) => {
             const { text, icon, onClick } = item;
             return(
-            <ListItem button key={text} onCLick={onClick}>
-              {icon && <ListItemIcon>{icon}</ListItemIcon>}
-              <ListItemText primary={text} />
-            </ListItem>
+              <AnchorLink key={text} onCLick={onClick} href={text=='Transações' ? '#tabela' : '#graf'} style={{textDecoration:'none', color:'gray'}}> 
+                <ListItem button >
+                  {icon && <ListItemIcon>{icon}</ListItemIcon>}
+                  <ListItemText primary={text} />
+                </ListItem>
+              </AnchorLink>
             );
+
           })}
         </List>   
       </Drawer>
-      <main className={classes.content}>
-        <div className={classes.toolbar}/>
-          <Grid container spacing={3} >
-           {clicked ? <Inicial/> : <Dashboard/>}
-        </Grid>
+      <main className={classes.content} id="tabela">
+        <div className={classes.toolbar} style={{justifyContent:"flex-start"}}/>
+        <h1 style={{ color:'gray'}}>Transações</h1>
+          <Grid container spacing={3} style={{ color:'gray', marginTop:'30px'}}>
+            <Grid item xs={12} sm={12} md={12} lg={7} xl={6} >
+              <Typography paragraph style={{ justifyContent:"flex-start"}}>
+                  <Cadastro />
+              </Typography>
+                  <Tabela/>
+            </Grid>  
+            <Grid item xs={12} sm={12} md={12} lg={5} xl={6}>
+                <Paper/>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={12} xl={12} id="graf">
+              <h1 style={{ color:'gray', marginTop:'50px'}}>Dashboard</h1>
+              <Dashboard/>
+            </Grid>
+          </Grid>
       </main>
     </div>
   );

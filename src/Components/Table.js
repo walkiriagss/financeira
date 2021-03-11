@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,7 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { PermDeviceInformationTwoTone } from '@material-ui/icons';
+import api from '../services/api'
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -32,20 +32,6 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(tipo, data, categoria, valor) {
-  return {tipo, data, categoria, valor };
-}
-
-const rows = [
-  createData('Receita', '30/05/2020', 'Salário', 2500),
-  createData('Despesa', '30/05/2020', 'Saúde', 300),
-  createData('Receita', '30/05/2020', 'Salário', 1.000),
-  createData('Despesa', '30/05/2020', 'Educação', 800),
-  createData('Despesa', '30/05/2020', 'Transporte', 150),
-  createData('Despesa', '30/05/2020', 'Transporte', 150),
-
-];
-
 const useStyles = makeStyles({
   table: {
     width: '100%',
@@ -55,6 +41,14 @@ const useStyles = makeStyles({
 
 export default function CustomizedTables() {
   const classes = useStyles();
+  const [tran, setTran] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await api("transacoes");
+      setTran(result.data);
+    };
+    fetchData();
+  }, []);
 
   return (
     <TableContainer component={Paper}>
@@ -68,12 +62,12 @@ export default function CustomizedTables() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell>{row.tipo}</StyledTableCell>
-              <StyledTableCell>{row.data}</StyledTableCell>
-              <StyledTableCell>{row.categoria}</StyledTableCell>
-              <StyledTableCell>{row.valor}</StyledTableCell>
+          {tran.map((item) => (
+            <StyledTableRow>
+              <StyledTableCell>{item.tipo}</StyledTableCell>
+              <StyledTableCell>{item.data}</StyledTableCell>
+              <StyledTableCell>{item.categoria}</StyledTableCell>
+              <StyledTableCell>{item.valor}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
