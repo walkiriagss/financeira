@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import api from '../services/api'
+import moment from 'moment'
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -65,7 +66,7 @@ export default function CustomizedTables() {
           {tran.map((item) => (
             <StyledTableRow>
               <StyledTableCell>{item.tipo}</StyledTableCell>
-              <StyledTableCell>{item.data}</StyledTableCell>
+              <StyledTableCell>{moment(item.data).format("DD/MM/YYYY")}</StyledTableCell>
               <StyledTableCell>{item.categoria}</StyledTableCell>
               <StyledTableCell>{item.valor}</StyledTableCell>
             </StyledTableRow>

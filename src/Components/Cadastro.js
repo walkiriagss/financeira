@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import api from '../services/api'
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -38,7 +39,12 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 export default function FormDialog() {
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [tipo, setTipo] = React.useState('');
+  const [data, setData] = React.useState(new Date('10/03/2021'));
+  const [categoria, setCategoria] = React.useState('');
+  const [valor, setValor] = React.useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -48,43 +54,50 @@ export default function FormDialog() {
     setOpen(false);
   };
 
-  const classes = useStyles();
-  const [age, setAge] = React.useState('');
-  const [openSelect, setOpenSelect] = React.useState(false);
-
   const handleChange = (event) => {
-    setAge(event.target.value);
+    switch (event.target.id) {
+    case  'data':
+      setData(event.target.value);
+    break;
+    case 'categoria':
+      setCategoria( event.target.value);
+    break;
+    case 'valor':
+      setValor( event.target.value);
+    break;
+    default:
+    break;
+    }
+  }
+
+  const handleChange1 = (event) => {
+    setTipo(event.target.value);
   };
 
-  const handleCloseSelect = () => {
-    setOpenSelect(false);
+  const handleChange2 = (event) => {
+    setCategoria(event.target.value);
   };
 
-  const handleOpenSelect = () => {
-    setOpenSelect(true);
-  };
+  const handleSubmit = event => {
+    event.preventDefault();
 
-  const [cat, setCat] = React.useState('');
-  const [openSelectCat, setOpenSelectCat] = React.useState(false);
+    const transacoes = {
+      tipo,
+      data,
+      categoria,
+      valor,
+    };
+    api.post(`transacoes`, transacoes)
+    
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+        alert("SUCESSO!!! \n Cadastro realizado com sucesso!!!");
+      }, (error) => {alert("Erro!!! \n O cadastro não foi realizado!!!");
+      });
+  }
 
-  const handleChangeCat = (event) => {
-    setCat(event.target.value);
-  };
-
-  const handleCloseSelectCat = () => {
-    setOpenSelectCat(false);
-  };
-
-  const handleOpenSelectCat = () => {
-    setOpenSelectCat(true);
-  };
-
-  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18'));
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
+ 
 
   return (
     <div>
@@ -92,7 +105,8 @@ export default function FormDialog() {
           <AddCircleIcon ></AddCircleIcon>
           NOVA TRANSAÇÃO
         </Button>
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" onSubmit={handleSubmit}>
+          <form  onSubmit={handleSubmit} noValidate>
             <DialogTitle id="form-dialog-title" style={{color:'green'}}>Nova Transação</DialogTitle>
             <DialogContent>
             <Typography gutterBottom style={{color:'green'}}>
@@ -103,14 +117,10 @@ export default function FormDialog() {
                     <KeyboardDatePicker
                       style={{width:'100%'}}
                       margin="normal"
-                      id="date-picker-dialog"
+                      id="data"
                       label="Data"
-                      format="MM/dd/yyyy"
-                      value={selectedDate}
-                      onChange={handleDateChange}
-                      KeyboardButtonProps={{
-                        'aria-label': 'change date',
-                      }}
+                      value={data}
+                      onChange={handleChange}
                     />
                   </Grid>
                 </MuiPickersUtilsProvider>
@@ -120,16 +130,13 @@ export default function FormDialog() {
                     <FormControl className={classes.formControl} style={{width:'100%'}}>
                         <InputLabel id="demo-controlled-open-select-label"><ImportExportIcon/>Tipo</InputLabel>
                         <Select
-                        labelId="demo-controlled-open-select-label"
-                        id="demo-controlled-open-select"
-                        open={openSelect}
-                        onClose={handleCloseSelect}
-                        onOpen={handleOpenSelect}
-                        value={age}
-                        onChange={handleChange}
+                        labelId="tipo"
+                        id="tipo"
+                        value={tipo}
+                        onChange={handleChange1}
                         >
-                        <MenuItem value={10}>Receita</MenuItem>
-                        <MenuItem value={20}>Despesa</MenuItem>
+                          <MenuItem value="Receita">Receita</MenuItem>
+                          <MenuItem value="Despesa">Despesa</MenuItem>
                         </Select>
                     </FormControl>
                   </Grid>
@@ -141,12 +148,9 @@ export default function FormDialog() {
                         <InputLabel htmlFor="input-with-icon-adornment"><TurnedInIcon/>Categoria</InputLabel>
                         <Select
                         labelId="demo-controlled-open-select-label"
-                        id="demo-controlled-open-select"
-                        open={openSelectCat}
-                        onClose={handleCloseSelectCat}
-                        onOpen={handleOpenSelectCat}
-                        value={cat}
-                        onChange={handleChangeCat}
+                        id="categoria"
+                        value={categoria}
+                        onChange={handleChange2}
                         >
                         <MenuItem value={10}>Salário</MenuItem>
                         <MenuItem value={20}>Achado</MenuItem>
@@ -162,7 +166,8 @@ export default function FormDialog() {
                     <FormControl className={classes.margin} style={{width:'100%'}}>
                       <InputLabel htmlFor="input-with-icon-adornment">Valor</InputLabel>
                         <Input
-                          id="input-with-icon-adornment"
+                          onChange={handleChange}
+                          id="valor"
                           startAdornment={
                             <InputAdornment position="start">
                               <AttachMoneyIcon />
@@ -177,10 +182,11 @@ export default function FormDialog() {
                 <Button variant="outlined" onClick={handleClose} style={{color:'red'}}>
                     Cancelar
                 </Button>
-                <Button variant="outlined" onClick={handleClose} style={{color:'blue'}}>
+                <Button variant="outlined" type="submit" style={{color:'blue'}}>
                     Adicionar
                 </Button>
             </DialogActions>
+          </form>
       </Dialog>
     </div>
   );
