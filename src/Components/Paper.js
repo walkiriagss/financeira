@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import api from '../services/api'
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -19,6 +20,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SimplePaper() {
   const classes = useStyles();
+  const [data, setData] = useState([]);
+  const [receita, setReceita] = useState([]);
+  const [balanco, setBalanco] = useState([]); 
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await api("somadespesas");
+      setData(result.data);
+
+      const res = await api("soma");
+      setReceita(res.data)
+
+      const resBal = await api("balanco");
+      setBalanco(resBal.data)
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -28,7 +45,7 @@ export default function SimplePaper() {
             <ArrowUpwardIcon style={{ backgroundColor:"green", color:'white', borderRadius:"100%", fontSize:'60px'}}/>
             <div style={{display: 'block', justifyContent:"flex-end", color:'green'}}>
               <h3 style={{color:'grey'}}>RECEITA TOTAL</h3>
-              <h1>R$ 2.500,00</h1>
+              <h1>R${receita.somatorio}  </h1>
             </div>
           </Paper>
         </Grid>
@@ -37,7 +54,7 @@ export default function SimplePaper() {
             <ArrowDownwardIcon style={{ backgroundColor:"red", color:'white', borderRadius:"100%", fontSize:'60px'}}/>
             <div style={{display: 'block', justifyContent:"flex-end", color:'red'}}>
               <h3 style={{color:'grey'}}>DESPESA TOTAL</h3>
-              <h1>R$ 1.500,00</h1>
+              <h1>R$ {data.somatorioDespesas}</h1>
             </div>
           </Paper>
         </Grid>
@@ -46,7 +63,7 @@ export default function SimplePaper() {
             <AccountBalanceWalletIcon style={{ backgroundColor:"blue", color:'white', borderRadius:"100%", fontSize:'60px'}}/>
             <div style={{display: 'block', justifyContent:"flex-end", color:'blue'}}>
               <h3 style={{color:'grey'}}>BALANÇO GERAL</h3>
-              <h1> + R$ 1.000,00</h1>
+              <h1> R$ {balanco.balanco}</h1>
             </div>
           </Paper>
         </Grid> 
