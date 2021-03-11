@@ -18,7 +18,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 //import component
@@ -104,20 +103,18 @@ export default function MiniDrawer() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const [clicked, setClicked] = React.useState(true); 
+  const [setClicked] = React.useState(true); 
 
-  const [clickedDash, setClickedDash] = React.useState(false); 
+  const [setClickedDash] = React.useState(false); 
 
   const handleClick = () => {
       setClicked(true);
       setClickedDash(false);
-      console.log("entra clicked:", clicked, clickedDash)
   }
 
   const handleClickDash = () => {
     setClickedDash(true);
     setClicked(false);
-    console.log("entra clicked:", clicked, clickedDash)
   }
 
   const itemList = [
@@ -132,7 +129,6 @@ export default function MiniDrawer() {
       onClick: () => handleClick()
     }
   ]
-console.log("clicked:", clicked, clickedDash)
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -182,7 +178,7 @@ console.log("clicked:", clicked, clickedDash)
           {itemList.map((item, index) => {
             const { text, icon, onClick } = item;
             return(
-              <AnchorLink key={text} onCLick={onClick} href={text=='Transações' ? '#tabela' : '#graf'} style={{textDecoration:'none', color:'gray'}}> 
+              <AnchorLink key={text} onCLick={onClick} href={text==='Transações' ? '#tabela' : '#graf'} style={{textDecoration:'none', color:'gray'}}> 
                 <ListItem button >
                   {icon && <ListItemIcon>{icon}</ListItemIcon>}
                   <ListItemText primary={text} />

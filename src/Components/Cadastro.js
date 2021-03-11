@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import api from '../services/api'
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -20,7 +20,6 @@ import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker,
 } from '@material-ui/pickers';
 import Typography from '@material-ui/core/Typography';
 
@@ -112,7 +111,7 @@ export default function FormDialog() {
 
   const handleSubmit = event => {
     event.preventDefault();
-    if(valor == "" || tipo == "" || categoria == "" || data == ""){
+    if(valor === "" || tipo === "" || categoria === "" || data === ""){
       return setOpenSnack(true)
     }
 
@@ -125,8 +124,6 @@ export default function FormDialog() {
     api.post(`transacoes`, transacoes)
     
       .then(res => {
-        console.log(res);
-        console.log(res.data);
         setOpenSnackSucess(true);
         setOpen(false);
         window.location.reload();
@@ -192,7 +189,7 @@ export default function FormDialog() {
                   </Grid>
                 </MuiPickersUtilsProvider>
 
-                <Box component="span" display={tipo=="Receita"? "block" : "none"} >
+                <Box component="span" display={tipo==="Receita"? "block" : "none"} >
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <Grid container justify="space-around">
                       <FormControl className={classes.formControl} style={{width:'100%', margin: "20px"}}>
@@ -214,8 +211,8 @@ export default function FormDialog() {
                   </MuiPickersUtilsProvider>
                 </Box>
 
-                <Box component="span" display={tipo=="Despesa"? "block" : "none"} >
-                  <MuiPickersUtilsProvider utils={DateFnsUtils} className={tipo=="Despesa" ? 'exibir' : 'nao'}>
+                <Box component="span" display={tipo==="Despesa"? "block" : "none"} >
+                  <MuiPickersUtilsProvider utils={DateFnsUtils} className={tipo==="Despesa" ? 'exibir' : 'nao'}>
                     <Grid container justify="space-around">
                       <FormControl className={classes.formControl} style={{width:'100%', margin: "20px"}}>
                           <InputLabel htmlFor="input-with-icon-adornment"><TurnedInIcon/>Categoria</InputLabel>

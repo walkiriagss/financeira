@@ -21,11 +21,7 @@ const StyledTableCell = withStyles((theme) => ({
   body: {
     fontSize: 14,
   },
-  flexContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    boxSizing: 'border-box',
-  },
+  
 }))(TableCell);
 
 const StyledTableRow = withStyles((theme) => ({
@@ -86,7 +82,7 @@ export default function CustomizedTables() {
         </TableHead>
         <TableBody>
           {tran.map((item) => (
-            <StyledTableRow style={{backgroundColor:item.tipo == "Receita" ?'#E0FFFF' : '#FFEFD5' }}>
+            <StyledTableRow style={{backgroundColor:item.tipo === "Receita" ?'#E0FFFF' : '#FFEFD5' }}>
               <StyledTableCell>{item.tipo}</StyledTableCell>
               <StyledTableCell>{moment(item.data).format("DD/MM/YYYY")}</StyledTableCell>
               <StyledTableCell>{item.categoria}</StyledTableCell>

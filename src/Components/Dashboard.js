@@ -37,15 +37,15 @@ function Dashboard() {
       fetchData();
     }, []);
 
-    const [options, setOptions] = useState({
+    const [options] = useState({
         title: 'Receitas por Categoria',
         is3D: true,
     });
-    const [optionsBar, setOptionsBar] = useState({
+    const [optionsBar] = useState({
         title: 'Despesas por Categoria',
         is3D: true,
     });
-    const [optionsBarBalanco, setOptionsBarBalanco] = useState({
+    const [optionsBarBalanco] = useState({
         title: 'Despesas x Receita',
         is3D: true,
     });
