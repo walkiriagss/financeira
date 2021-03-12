@@ -23,7 +23,7 @@ $ git clone <https://github.com/walkiriagss/financeira.git>
 $ cd back
 
 # Acesse a pasta de criação da tabela do banco de dados
-$ cd back/bd.sql
+$ cd bd.sql
 
 # Copie a tabela e cole o em um novo script no portgreSql
 
@@ -34,7 +34,7 @@ DATABASE_URL=postgres://{db_username}:{db_password}@{host}:{port}/{db_name}
 # Execute a aplicação backend
 $ npm start
 
-# O servidor inciará na porta:8080 - acesse <http://localhost:8080> - Deixe esse rodando e execute o front com instruções abaixo
+# O servidor inciará na porta:8080 - Deixe esse rodando e execute o front com instruções abaixo
 
 # Acesse a pasta do projeto no terminal/cmd
 $ cd financeira
